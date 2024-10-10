@@ -76,7 +76,7 @@ Start test function waits for tests and chrome pods to be up and running. Then e
 ```bash
 pytest test_insidier.py::'test_case' --chromeip="CHROME_POD_IP"
 ```
-Output :
+Output for **test_case3** :
 ```bash
 Waiting for chrome nodes to be running.
 STDOUT:
