@@ -6,7 +6,7 @@ System basically uses Remote Webdriver to execute test cases on the standalone s
 
 Make sure you have the following installed:
 
-- Python 3.x
+- Python 3.10+
 - Required libraries (install them using `pip install -r requirements_manage.txt`)
 
 Comment start_test section in **manage.py** script to only deploy Tests Pod and Chrome Node Pods:
