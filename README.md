@@ -101,5 +101,6 @@ STDOUT:
 Thank you for checking out this project.
 - Couldn't get a chance for AWS deployment.
 - Tests are not fully optimized, I mostly focused on the architecture.
+- There is no Dockerfile for chrome nodes just renamed **selenium/standalone-chrome** into my Docker hub.
 - Have a good day.
 
