@@ -49,6 +49,7 @@ class K8Resource:
 
     def delete(self):
         """Delete related resources."""
+        print("-" * 100)
         print(f"Checking/deleting existing pods for {self.yaml_configs}")
         for resource in self._resources:
             self.resource_name = resource["metadata"]["name"]
@@ -113,11 +114,13 @@ class ChromeNodePods(K8Resource):
             str: _description_
         """
         v1 = client.CoreV1Api()
-        pods = v1.list_namespaced_pod(self.namespace)
-        for pod in pods.items:
-            if "chrome" in pod.metadata.name and pod.status.phase == "Running":
-                return pod.status.pod_ip
-        raise Exception("No available selenium chrome pods found.")
+        while True:
+            pods = v1.list_namespaced_pod(self.namespace)
+            for pod in pods.items:
+                if "chrome" in pod.metadata.name and pod.status.phase == "Running":
+                    return pod.status.pod_ip
+            print("Waiting for chrome nodes to be running.")
+            time.sleep(3)
 
 
 class TestsPod(K8Resource):
@@ -139,11 +142,13 @@ class TestsPod(K8Resource):
             _type_: _description_
         """
         v1 = client.CoreV1Api()
-        pods = v1.list_namespaced_pod(self.namespace)
-        for pod in pods.items:
-            if "tests" in pod.metadata.name and pod.status.phase == "Running":
-                return pod.metadata.name
-        raise Exception("No available selenium chrome pods found.")
+        while True:
+            pods = v1.list_namespaced_pod(self.namespace)
+            for pod in pods.items:
+                if "tests" in pod.metadata.name and pod.status.phase == "Running":
+                    return pod.metadata.name
+            print("Waiting for chrome nodes to be running.")
+            time.sleep(3)
 
     def start_test(
         self, target_chrome_pod_ip: str, test_module: str, test_case: str = None
@@ -204,7 +209,7 @@ class TestsPod(K8Resource):
                     "Running",
                     "Terminating",
                 ]:
-                    print("Waiing tests pod to be terminated.")
+                    print("Waiting Tests pod to be terminated.")
                     time.sleep(3)
                     break
             else:
@@ -218,5 +223,5 @@ if __name__ == "__main__":
     chrome_pods.deploy()
     tests_pod.deploy()
     tests_pod.start_test(
-        chrome_pods.get_chrome_pod(), "test_insider.py", test_case="test_sanity"
+        chrome_pods.get_chrome_pod(), "test_insider.py", test_case="test_case3"
     )
