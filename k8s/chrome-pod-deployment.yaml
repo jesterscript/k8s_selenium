@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: selenium-chrome-deployment
+  namespace: default
+  labels:
+    app: selenium-chrome
+spec:
+  selector:
+    matchLabels:
+      app: selenium-chrome
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: selenium-chrome
+    spec:
+      volumes:
+      - name: shared-memory
+        emptyDir:
+          sizeLimit: "2G"
+          medium: Memory
+      containers:
+        - name: selenium-chrome
+          image: jesterscript/standalone-chrome:latest
+          resources:
+            requests:
+              memory: "1G"
+            limits:
+              memory: "2G"
+          volumeMounts:
+            - mountPath: /dev/shm
+              name: shared-memory
+          ports:
+            - containerPort: 4444

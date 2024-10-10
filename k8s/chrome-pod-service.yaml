@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: selenium-chrome-service
+  namespace: default
+spec:
+  selector:
+    app: selenium-chrome
+  ports:
+    - protocol: TCP
+      port: 4444
