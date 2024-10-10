@@ -100,7 +100,7 @@ STDOUT:
 
 Thank you for checking out this project.
 - Couldn't get a chance for AWS deployment. Developed locally on minikube.
-- Tests are not fully optimized, I mostly focused on the architecture.
+- Tests are not fully optimized, I mostly focused on the system design.
 - There is no Dockerfile for chrome nodes just renamed **selenium/standalone-chrome** into my Docker hub.
 - Have a good day.
 
